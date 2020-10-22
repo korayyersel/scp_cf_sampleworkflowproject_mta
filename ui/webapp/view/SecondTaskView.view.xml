@@ -1,0 +1,69 @@
+<mvc:View controllerName="com.qperior.workflowsample.ui.controller.SecondTaskView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
+	xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
+	<App id="app">
+		<pages>
+			<Page id="page" title="{i18n>taskTitle}">
+				<content>
+					<l:VerticalLayout width="100%">
+						<l:content>
+							<ObjectHeader title="{taskHeaderData>/TaskTitle}" titleActive="false">
+								<attributes>
+									<ObjectAttribute title="Created On" text="{taskHeaderData>/CreatedOnStr}"/>
+									<ObjectAttribute title="Description" text="{taskHeaderData>/Description}"/>
+								</attributes>
+								<statuses>
+									<ObjectStatus text="{taskHeaderData>/Status}" state="None"/>
+									<ObjectStatus text="{taskHeaderData>/Priority}" state="{taskHeaderData>/PriorityState}"/>
+								</statuses>
+							</ObjectHeader>
+							<Panel class="sapUiResponsiveMargin" accessibleRole="Region">
+								<headerToolbar>
+									<OverflowToolbar>
+										<Title text="Task Context"/>
+									</OverflowToolbar>
+								</headerToolbar>
+								<content>
+									<f:Form id="SecondTaskFormDisplay" editable="false">
+										<f:title>
+											<core:Title text="Address"/>
+										</f:title>
+										<f:layout>
+											<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"
+												emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+										</f:layout>
+										<f:formContainers>
+											<f:FormContainer>
+												<f:formElements>
+													<f:FormElement label="Name">
+														<f:fields>
+															<Text text="{taskContextData>/Name}" id="nameText"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement label="Street">
+														<f:fields>
+															<Text text="{taskContextData>/Street} {taskContextData>/HouseNumber}"/>
+														</f:fields>
+													</f:FormElement>
+													<f:FormElement label="ZIP Code/City">
+														<f:fields>
+															<Text text="{taskContextData>/ZIPCode} {taskContextData>/City}"/>
+														</f:fields>
+													</f:FormElement>
+                                                    <f:FormElement label="Last decision (First Task)">
+														<f:fields>
+															<Text text="{taskContextData>/FirstTaskResult}"/>
+														</f:fields>
+													</f:FormElement>
+												</f:formElements>
+											</f:FormContainer>
+										</f:formContainers>
+									</f:Form>
+								</content>
+							</Panel>
+						</l:content>
+					</l:VerticalLayout>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

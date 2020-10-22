@@ -1,0 +1,89 @@
+ID: sampleworkflowproject
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: sampleworkflowproject-approuter
+    type: approuter.nodejs
+    path: approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: sampleworkflowproject-html5-repo-runtime
+      - name: sampleworkflowproject-uaa
+      - name: sampleworkflowproject-portal-resources
+      - name: default-workflow-workflowservice
+      - name: default-conn
+      - name: default-dest
+  - name: sampleworkflowproject-ui-deployer
+    type: com.sap.html5.application-content
+    path: ui-deployer
+    requires:
+      - name: sampleworkflowproject-html5-repo-host
+    build-parameters:
+      requires:
+        - name: sampleworkflowproject-ui
+          artifacts:
+            - './*'
+          target-path: resources/ui
+  - name: sampleworkflowproject-workflow
+    type: com.sap.application.content
+    path: workflow
+    requires:
+      - name: default-workflow-workflowservice
+        parameters:
+          content-target: true
+  - name: sampleworkflowproject-ui
+    type: html5
+    path: ui
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+  - name: sampleworkflowproject-launchpad
+    type: com.sap.application.content
+    path: launchpad
+    requires:
+      - name: sampleworkflowproject-portal-resources
+        parameters:
+          service-key:
+            name: content-deploy-key
+            config:
+              content-endpoint: developer
+          content-target: true
+      - name: sampleworkflowproject-uaa
+      - name: sampleworkflowproject-html5-repo-host
+      - name: sampleworkflowproject-ui-deployer
+resources:
+  - name: sampleworkflowproject-html5-repo-runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: sampleworkflowproject-html5-repo-host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: default-workflow-workflowservice
+    type: org.cloudfoundry.existing-service
+  - name: sampleworkflowproject-uaa
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+  - name: sampleworkflowproject-portal-resources
+    parameters:
+      service-plan: standard
+      service: portal
+    type: org.cloudfoundry.managed-service
+  - name: default-conn
+    type: org.cloudfoundry.existing-service
+  - name: default-dest
+    type: org.cloudfoundry.existing-service
