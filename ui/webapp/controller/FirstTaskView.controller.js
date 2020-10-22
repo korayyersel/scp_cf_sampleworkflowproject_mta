@@ -33,7 +33,7 @@ sap.ui.define([
         },
         onCallODataCC: function(evt){
             $.ajax({
-				url: "/comqperiorworkflowsampleui/gateway/sap/opu/odata/sap/C_SUPPLIER_FS_SRV/C_SupplierPurOrder?$format=json",
+				url: "/comqperiorworkflowsampleui/gateway/sap/opu/odata/...?$format=json",
 				method: "GET",
 				success: function (result, xhr, data) {
 					var test = data;

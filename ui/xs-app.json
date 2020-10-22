@@ -15,7 +15,7 @@
         {
             "source": "^/gateway/(.*)$",
             "target": "/$1",
-            "destination": "Q_PERIOR_GW1",
+            "destination": "gatewaydestination",
             "authenticationType": "none"
         },
         {
